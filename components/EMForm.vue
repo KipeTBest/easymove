@@ -11,20 +11,27 @@
 				<EMInput
 					title="ФИО"
 					is-required
-					type="string"
+					type="text"
+					v-model="fullName"
+					:error="errors.fullName"
 				/>
 				<EMInput
 					title="Телефон"
 					is-required
 					type="tel"
+					inputmode="numeric"
+					v-model="phone"
+					:error="errors.phone"
 				/>
 				<EMInput
 					title="Город"
-					type="string"
+					type="text"
+					v-model="city"
+					:error="errors.city"
 				/>
 			</div>
 			<div class="form__checkbox">
-				<Checkbox />
+				<Checkbox v-model="agreed" />
 				<span class="form__checkbox-text">
 					<span class="form__checkbox-requirement">*</span>Я согласен с
 					<a
@@ -38,13 +45,62 @@
 			</div>
 		</div>
 		<div class="form__submit">
-			<EMButton />
+			<EMButton @click="sendForm" :is-disabled="!validate" />
 		</div>
 	</div>
 </template>
 
 <script setup lang="ts">
+import { ref, reactive } from 'vue';
+import { useRoute } from 'vue-router';
+import { groups } from '@/utils/group-config';
 
+const route = useRoute();
+const groupId = route.params.groupId as keyof typeof groups;
+const config = groups[groupId];
+
+const fullName = ref<string>('');
+const phone = ref<string | number>('');
+const city = ref<string>('');
+const agreed = ref(false);
+
+const errors = reactive({
+	fullName: '',
+	phone: '',
+	city: '',
+	agreed: ''
+});
+
+const validate = () => {
+	errors.fullName = fullName.value.trim() ? '' : 'ФИО обязательно'
+	errors.phone = phone.value.trim() ? '' : 'Телефон обязателен'
+	errors.agreed = agreed.value ? '' : 'Необходимо согласие с политикой'
+	return !errors.fullName && !errors.phone && !errors.agreed
+}
+
+const sendForm = async () => {
+	if (!validate()) return
+
+	try {
+		const response = await fetch('/api/form', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				fullName: fullName.value,
+				phone: phone.value,
+				city: city.value,
+				chatId: config.chatId
+			})
+		})
+
+		const data = await response.json()
+		console.log(data)
+	} catch (err) {
+		console.error('Ошибка при отправке формы:', err)
+	}
+}
 </script>
 
 <style scoped lang="scss">
@@ -77,8 +133,7 @@
 
 	&__inputs {
 		display: flex;
-		padding: 30px 45px 25px;
-		gap: 20px;
+		padding: 30px 45px 5px;
 
 		flex-direction: column;
 	}

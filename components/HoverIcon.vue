@@ -19,8 +19,8 @@ const { type } = defineProps<IHoverIcon>();
 
 const isHovered = ref(false);
 
-const whiteSrc = computed(() => new URL(`../public/${type}.svg`, import.meta.url).href);
-const coloredSrc = computed(() => new URL(`../public/${type}_colored.svg`, import.meta.url).href);
+const whiteSrc = computed(() => `/${type}.svg`);
+const coloredSrc = computed(() => `/${type}_colored.svg`);
 </script>
 
 <style scoped lang="scss">

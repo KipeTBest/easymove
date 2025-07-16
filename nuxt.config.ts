@@ -4,7 +4,7 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: ['@nuxt/eslint'],
   css: ['@/assets/styles/main.scss'],
-  ssr: false,
+  ssr: true,
   app: {
     head: {
       title: 'Легкий Ход',
@@ -14,5 +14,11 @@ export default defineNuxtConfig({
       ],
       link: [{ href: 'https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap', rel: 'stylesheet' }]
     },
+  },
+  runtimeConfig: {
+    CHAT_ID_1: process.env.CHAT_ID_1,
+    CHAT_ID_2: process.env.CHAT_ID_2,
+    CHAT_ID_3: process.env.CHAT_ID_3,
+    TOKEN: process.env.TOKEN,
   },
 })

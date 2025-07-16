@@ -109,6 +109,7 @@ const toggle = (): void => {
 		text-align: left;
 		font-size: 16px;
 		font-weight: 600;
+		color: $black-color;
 	}
 
 	&__content {

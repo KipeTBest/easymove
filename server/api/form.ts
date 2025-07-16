@@ -1,0 +1,38 @@
+import { defineEventHandler, readBody } from 'h3';
+
+export default defineEventHandler(async (event) => {
+	const config = useRuntimeConfig();
+	const body = await readBody(event);
+
+	const { fullName, phone, city, chatId } = body;
+
+	const chatMap: Record<string, string> = {
+		'1': config.CHAT_ID_1,
+		'2': config.CHAT_ID_2,
+		'3': config.CHAT_ID_3,
+	};
+
+	const telegramChatId = chatMap[chatId];
+	const TELEGRAM_TOKEN = config.TOKEN;
+	const TELEGRAM_API = `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`;
+
+	const message = `
+		Новая заявка:
+		ФИО: ${fullName}
+		Телефон: ${phone}
+		Город: ${city || 'Не указано'}
+		`.trim();
+
+	try {
+		const res = await fetch(TELEGRAM_API, {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({
+				chat_id: telegramChatId,
+				text: message,
+			}),
+		});
+	} catch (error) {
+		console.error('Ошибка отправки Telegram:', error);
+	}
+})

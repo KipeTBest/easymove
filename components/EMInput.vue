@@ -5,31 +5,30 @@
 		</label>
 		<input
 			v-model="model"
+			:type="type === 'tel' ? 'tel' : 'text'"
 			class="input__field"
-			:type
+			:aria-invalid="error ? 'true' : 'false'"
 		/>
-		<span v-if="error.length" class="input__error">
-			{{ error }}
+		<span
+			class="input__error"
+			:class="{ visible: !!error }"
+		>
+			{{ error || '' }}
 		</span>
 	</div>
 </template>
 
 <script setup lang="ts">
-const model = defineModel<string | number>();
+const model = defineModel<string | number>()
 
 interface IInput {
-	title: string;
-	isRequired?: boolean;
-	type: 'tel' | 'string';
-	error?: string;
+	title: string
+	isRequired?: boolean
+	type: 'tel' | 'text'
+	error?: string
 }
 
-const {
-	title,
-	isRequired = false,
-	type,
-	error = '',
-} = defineProps<IInput>();
+const { title, isRequired = false, type, error = '' } = defineProps<IInput>()
 </script>
 
 <style scoped lang="scss">
@@ -55,7 +54,6 @@ const {
 		top: -6px;
 		left: 20px;
 		padding: 0 6px;
-
 		background: white;
 
 		font-size: 12px;
@@ -64,6 +62,21 @@ const {
 
 	&__required {
 		color: red;
+	}
+
+	&__error {
+		display: block;
+		height: 18px;
+		font-size: 12px;
+		color: red;
+		margin-top: 4px;
+		opacity: 0;
+		transition: opacity 0.2s;
+		text-align: right;
+
+		&.visible {
+			opacity: 1;
+		}
 	}
 }
 </style>

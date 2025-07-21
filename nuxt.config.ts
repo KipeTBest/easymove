@@ -2,7 +2,6 @@
 export default defineNuxtConfig({
   compatibilityDate: '2025-05-15',
   devtools: { enabled: true },
-  modules: ['@nuxt/eslint'],
   css: ['@/assets/styles/main.scss'],
   ssr: true,
   app: {

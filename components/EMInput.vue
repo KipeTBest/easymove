@@ -6,6 +6,8 @@
 		<input
 			v-model="model"
 			:type="type === 'tel' ? 'tel' : 'text'"
+			:inputmode="type === 'tel' ? 'numeric' : undefined"
+			:pattern="type === 'tel' ? '\\d*' : undefined"
 			class="input__field"
 			:aria-invalid="error ? 'true' : 'false'"
 		/>

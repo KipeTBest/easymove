@@ -19,7 +19,6 @@
 					title="Телефон"
 					is-required
 					type="tel"
-					inputmode="numeric"
 					v-model="phone"
 					:error="errors.phone"
 				/>
@@ -52,12 +51,6 @@
 
 <script setup lang="ts">
 import { ref, reactive } from 'vue';
-import { useRoute } from 'vue-router';
-import { groups } from '@/utils/group-config';
-
-const route = useRoute();
-const groupId = route.params.groupId as keyof typeof groups;
-const config = groups[groupId];
 
 const fullName = ref<string>('');
 const phone = ref<string | number>('');
@@ -73,13 +66,13 @@ const errors = reactive({
 
 const validate = () => {
 	errors.fullName = fullName.value.trim() ? '' : 'ФИО обязательно'
-	errors.phone = phone.value.trim() ? '' : 'Телефон обязателен'
+	errors.phone = phone.value.toString().trim() ? '' : 'Телефон обязателен'
 	errors.agreed = agreed.value ? '' : 'Необходимо согласие с политикой'
 	return !errors.fullName && !errors.phone && !errors.agreed
 }
 
 const sendForm = async () => {
-	if (!validate()) return
+	if (!validate()) return;
 
 	try {
 		const response = await fetch('/api/form', {
@@ -91,14 +84,13 @@ const sendForm = async () => {
 				fullName: fullName.value,
 				phone: phone.value,
 				city: city.value,
-				chatId: config.chatId
 			})
 		})
 
-		const data = await response.json()
-		console.log(data)
+		const data = await response.json();
+		console.log(data);
 	} catch (err) {
-		console.error('Ошибка при отправке формы:', err)
+		console.error('Ошибка при отправке формы:', err);
 	}
 }
 </script>

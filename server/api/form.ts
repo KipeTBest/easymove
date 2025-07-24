@@ -4,15 +4,9 @@ export default defineEventHandler(async (event) => {
 	const config = useRuntimeConfig();
 	const body = await readBody(event);
 
-	const { fullName, phone, city, chatId } = body;
+	const { fullName, phone, city } = body;
 
-	const chatMap: Record<string, string> = {
-		'1': config.CHAT_ID_1,
-		'2': config.CHAT_ID_2,
-		'3': config.CHAT_ID_3,
-	};
-
-	const telegramChatId = chatMap[chatId];
+	const telegramChatId = config.CHAT_ID;
 	const TELEGRAM_TOKEN = config.TOKEN;
 	const TELEGRAM_API = `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`;
 

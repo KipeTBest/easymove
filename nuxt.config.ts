@@ -16,12 +16,12 @@ export default defineNuxtConfig({
     },
   },
   runtimeConfig: {
-    TOKEN: '',
-    CHAT_ID: '',
+    TOKEN: process.env.TOKEN,
+    CHAT_ID: process.env.CHAT_ID,
     public: {
-      PHONE: '',
-      TELEGRAM_LINK: '',
-      WHATSAPP_LINK: '',
+      PHONE: process.env.PHONE,
+      TELEGRAM_LINK: process.env.TELEGRAM_LINK,
+      WHATSAPP_LINK: process.env.WHATSAPP_LINK,
     }
   }
 })

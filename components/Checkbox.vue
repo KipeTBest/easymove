@@ -6,13 +6,22 @@
 				class="checkbox__input"
 				type="checkbox"
 			/>
-			<span class="checkbox__box" />
+			<span
+				class="checkbox__box"
+				:class="{ 'checkbox__box--error': error }"
+			/>
 		</label>
 	</div>
 </template>
 
 <script setup lang="ts">
 const model = defineModel<boolean>();
+
+interface ICheckbox {
+	error?: boolean;
+}
+
+const { error = false } = defineProps<ICheckbox>();
 </script>
 
 <style scoped lang="scss">
@@ -55,6 +64,10 @@ const model = defineModel<boolean>();
 
 		border: 1px solid $black-color;
 		border-radius: $border-radius-small;
+
+		&--error {
+			border: 1px solid red;
+		}
 	}
 }
 </style>

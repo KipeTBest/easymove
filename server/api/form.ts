@@ -11,11 +11,11 @@ export default defineEventHandler(async (event) => {
 	const TELEGRAM_API = `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`;
 
 	const message = `
-		Новая заявка:
-		ФИО: ${fullName}
-		Телефон: ${phone}
-		Город: ${city || 'Не указано'}
-		`.trim();
+	Новая заявка:
+	ФИО: ${fullName}
+	Телефон: ${phone.slice(1)}
+	Город: ${city || 'Не указано'}
+	`.trim();
 
 	try {
 		const res = await fetch(TELEGRAM_API, {

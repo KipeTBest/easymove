@@ -219,7 +219,12 @@
 				</div>
 			</div>
 		</footer>
-		<Modal v-if="isModalOpen" @close="toggleModal"></Modal>
+		<Modal
+			v-if="isModalOpen"
+			@close="toggleModal"
+			@success="handleFormSuccess"
+		/>
+		<SuccessToast v-if="isToastShown" />
 	</div>
 </template>
 
@@ -235,6 +240,7 @@ import {
 const config = useRuntimeConfig();
 
 const isModalOpen = ref(false);
+const isToastShown = ref(false);
 
 const toggleModal = (): void => {
 	isModalOpen.value = !isModalOpen.value;
@@ -243,6 +249,13 @@ const toggleModal = (): void => {
 const open = (type: 'telegram' | 'whatsapp'): void => {
 	const url = type === 'telegram' ? config.public.TELEGRAM_LINK : config.public.WHATSAPP_LINK;
 	window.open(url, '_blank');
+}
+
+const handleFormSuccess = () => {
+	isToastShown.value = true
+	setTimeout(() => {
+		isToastShown.value = false
+	}, 3000)
 }
 </script>
 

@@ -24,13 +24,17 @@
 				/>
 				<EMInput
 					title="Город"
+					is-required
 					type="text"
 					v-model="city"
 					:error="errors.city"
 				/>
 			</div>
 			<div class="form__checkbox">
-				<Checkbox v-model="agreed" />
+				<Checkbox
+					v-model="agreed"
+					:error="errors.agreed"
+				/>
 				<span class="form__checkbox-text">
 					<span class="form__checkbox-requirement">*</span>Я согласен с
 					<a
@@ -50,7 +54,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from 'vue';
+import { ref, reactive, watch } from 'vue';
+
+const emit = defineEmits(['success'])
 
 const fullName = ref<string>('');
 const phone = ref<string | number>('');
@@ -61,21 +67,32 @@ const errors = reactive({
 	fullName: '',
 	phone: '',
 	city: '',
-	agreed: ''
+	agreed: false
 });
 
 const validate = () => {
-	errors.fullName = fullName.value.trim() ? '' : 'ФИО обязательно'
-	errors.phone = phone.value.toString().trim() ? '' : 'Телефон обязателен'
-	errors.agreed = agreed.value ? '' : 'Необходимо согласие с политикой'
-	return !errors.fullName && !errors.phone && !errors.agreed
+	errors.fullName = fullName.value.trim() ? '' : 'Введите ФИО';
+
+	const phoneDigits = phone.value.toString().replace(/\D/g, '');
+	if (!phone.value.toString().trim()) {
+		errors.phone = 'Введите номер';
+	} else if (phoneDigits.length < 11) {
+		errors.phone = 'Номер некорректный';
+	} else {
+		errors.phone = '';
+	}
+
+	errors.city = city.value.trim() ? '' : 'Введите город';
+	errors.agreed = !agreed.value;
+
+	return !errors.fullName && !errors.phone && !errors.city && !errors.agreed;
 }
 
 const sendForm = async () => {
 	if (!validate()) return;
 
 	try {
-		const response = await fetch('/api/form', {
+		await fetch('/api/form', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
@@ -87,12 +104,27 @@ const sendForm = async () => {
 			})
 		})
 
-		const data = await response.json();
-		console.log(data);
+		emit('success');
 	} catch (err) {
 		console.error('Ошибка при отправке формы:', err);
 	}
 }
+
+watch(fullName, (val) => {
+	if (val.trim()) errors.fullName = ''
+})
+
+watch(phone, (val) => {
+	if (val.toString().trim()) errors.phone = ''
+})
+
+watch(city, (val) => {
+	if (val.trim()) errors.city = ''
+})
+
+watch(agreed, (val) => {
+	if (val) errors.agreed = false
+})
 </script>
 
 <style scoped lang="scss">

@@ -4,10 +4,21 @@
 			{{ title }}<span v-if="isRequired" class="input__required">*</span>
 		</label>
 		<input
+			v-if="type === 'tel'"
+			v-model="phoneValue"
+			type="tel"
+			inputmode="numeric"
+			pattern="\d*"
+			class="input__field"
+			maxlength="12"
+			minlength="12"
+			:aria-invalid="error ? 'true' : 'false'"
+			@beforeinput="onPhoneBeforeInput"
+		/>
+		<input
+			v-else
 			v-model="model"
-			:type="type === 'tel' ? 'tel' : 'text'"
-			:inputmode="type === 'tel' ? 'numeric' : undefined"
-			:pattern="type === 'tel' ? '\\d*' : undefined"
+			type="text"
 			class="input__field"
 			:aria-invalid="error ? 'true' : 'false'"
 		/>
@@ -21,7 +32,9 @@
 </template>
 
 <script setup lang="ts">
-const model = defineModel<string | number>()
+import { computed } from 'vue';
+
+const model = defineModel<string | number>();
 
 interface IInput {
 	title: string
@@ -30,7 +43,49 @@ interface IInput {
 	error?: string
 }
 
-const { title, isRequired = false, type, error = '' } = defineProps<IInput>()
+const {
+	title,
+	isRequired = false,
+	type,
+	error = ''
+} = defineProps<IInput>();
+
+const phoneValue = computed({
+	get() {
+		let value = String(model.value ?? '');
+		if (!value.startsWith('+7')) value = `+7${value.replace(/\D/g, '')}`;
+		return value;
+	},
+	set(val: string) {
+		if (!val.startsWith('+7')) {
+			val = '+7' + val.replace(/\D/g, '');
+		}
+		const onlyDigits = val.replace(/\D/g, '');
+		model.value = `+7${onlyDigits.slice(1)}`;
+	}
+})
+
+const onPhoneBeforeInput = (e: Event) => {
+	const inputEvent = e as InputEvent;
+
+	if (inputEvent.inputType !== 'insertText') return;
+
+	const inputChar = inputEvent.data;
+	if (!inputChar) return;
+
+	const isDigit = /\d/.test(inputChar);
+	const isPlus = inputChar === '+';
+
+	if (!isDigit && !isPlus) {
+		e.preventDefault();
+		return;
+	}
+
+	const el = inputEvent.target as HTMLInputElement;
+	if (isPlus && (el.selectionStart !== 0 || el.value.includes('+'))) {
+		e.preventDefault();
+	}
+}
 </script>
 
 <style scoped lang="scss">

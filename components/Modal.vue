@@ -4,13 +4,28 @@
 			<button class="modal__close" @click="emit('close')" aria-label="Закрыть">
 				×
 			</button>
-			<EMForm />
+			<EMForm @success="handleSuccess" />
 		</div>
 	</div>
 </template>
 
 <script setup lang="ts">
-const emit = defineEmits(['close']);
+import { onMounted, onUnmounted } from 'vue';
+
+const emit = defineEmits(['close', 'success']);
+
+const handleSuccess = () => {
+	emit('close');
+	emit('success');
+}
+
+onMounted(() => {
+	document.body.classList.add('no-scroll');
+});
+
+onUnmounted(() => {
+	document.body.classList.remove('no-scroll');
+});
 </script>
 
 <style scoped lang="scss">

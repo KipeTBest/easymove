@@ -1,5 +1,9 @@
 // plugins/yandex-metrika.client.ts
 export default defineNuxtPlugin(() => {
+	const config = useRuntimeConfig();
+
+	const TOKEN = config.YM_TOKEN;
+
 	if (typeof window === 'undefined') return;
 
 	(function(m: any, e: any, t: any, r: any, i: any, k?: any, a?: any) {
@@ -15,9 +19,9 @@ export default defineNuxtPlugin(() => {
 		k.async = 1;
 		k.src = r;
 		a.parentNode.insertBefore(k, a);
-	})(window, document, 'script', 'https://mc.yandex.ru/metrika/tag.js?id=103438403', 'ym');
+	})(window, document, 'script', `https://mc.yandex.ru/metrika/tag.js?id=${TOKEN}`, 'ym');
 
-	(window as any).ym(103438403, 'init', {
+	(window as any).ym(TOKEN, 'init', {
 		ssr: true,
 		webvisor: true,
 		clickmap: true,

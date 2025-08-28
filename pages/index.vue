@@ -20,12 +20,11 @@
 					</div>
 					<div class="home__greeting">
 						<h1 class="home__title">
-							С нами сотрудничают<br>
-							тысячи людей по всей стране,<br>
-							более чем в 50 городах России
+							Стань курьером и зарабатывай<br>
+							до 200 000 руб. в месяц
 						</h1>
 						<span class="home__description">
-							Присоединяйтесь к нашей команде и начинайте зарабатывать уже сегодня
+							Оставь заявку и получи работу уже сегодня
 						</span>
 						<div class="home__controls">
 							<EMButton class="home__button" @click="toggleModal" />
@@ -269,6 +268,10 @@ const handleFormSuccess = () => {
 		position: relative;
 
 		overflow: hidden;
+	}
+
+	&__description {
+		font-size: 24px;
 	}
 
 	&__header-background {

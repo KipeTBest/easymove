@@ -2,7 +2,7 @@
 export default defineNuxtPlugin(() => {
 	const config = useRuntimeConfig();
 
-	const TOKEN = config.YM_TOKEN;
+	const TOKEN = config.public.YM_TOKEN;
 
 	if (typeof window === 'undefined') return;
 

@@ -10,7 +10,7 @@ export default defineNuxtConfig({
       title: 'Легкий Ход',
       meta: [
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-        { name: 'description', content: 'Ежедневный доход. Свободный график' },
+        { name: 'description', content: 'Вакансии в службе доставки с высоким доходом' },
         { name: 'yandex-verification', content: '0b9ab340fe50f63a' },
         { name: 'google-site-verification', content: 'vrYNL9fSOOYW5r0o4PNO3AV0DZE9cT16dMYMa8D9i2s' },
       ],

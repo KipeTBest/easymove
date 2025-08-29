@@ -21,7 +21,7 @@
 					<div class="home__greeting">
 						<h1 class="home__title">
 							Стань курьером и зарабатывай<br>
-							до 200 000 руб. в месяц
+							до 200 000 рублей в месяц
 						</h1>
 						<span class="home__description">
 							Оставь заявку и получи работу уже сегодня

@@ -20,9 +20,9 @@ export default defineNuxtConfig({
   runtimeConfig: {
     TOKEN: process.env.TOKEN,
     CHAT_ID: process.env.CHAT_ID,
-    YM_TOKEN: process.env.YM_TOKEN,
     public: {
       PHONE: process.env.PHONE,
+      YM_TOKEN: process.env.YM_TOKEN,
       TELEGRAM_LINK: process.env.TELEGRAM_LINK,
       WHATSAPP_LINK: process.env.WHATSAPP_LINK,
     }

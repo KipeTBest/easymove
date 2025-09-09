@@ -11,7 +11,7 @@ export default defineNuxtConfig({
       meta: [
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
         { name: 'description', content: 'Ежедневный доход. Свободный график' },
-        { name: 'yandex-verification', content: '0b9ab340fe50f63a' },
+        { name: 'yandex-verification', content: 'fc9b2a9d25ccc766' },
         { name: 'google-site-verification', content: 'vrYNL9fSOOYW5r0o4PNO3AV0DZE9cT16dMYMa8D9i2s' },
       ],
       link: [{ href: 'https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap', rel: 'stylesheet' }]

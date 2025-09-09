@@ -1,6 +1,17 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   plugins: [],
+  modules: ['@nuxtjs/sitemap'],
+  sitemap: {
+    siteUrl: 'https://legkiykhod.ru',
+    gzip: true,
+    routes: async () => {
+      return [
+        '/',
+        '/policy',
+      ]
+    }
+  },
   compatibilityDate: '2025-05-15',
   devtools: { enabled: true },
   css: ['@/assets/styles/main.scss'],
